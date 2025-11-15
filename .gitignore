@@ -1,0 +1,8 @@
+.vscode/
+/Results
+/Program/runAll.sh
+/Program/runTTT.sh
+/Problem/Problem_QMC*
+/Program/src/main.o
+/Program/runTest.exe
+Program/config/config_tests.conf
