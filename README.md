@@ -1,97 +1,76 @@
-# Framework_v2.0
-This is the second version of the RKO framework
+# RKO-ACO for QMC-VSBPP
 
+[![Paper](https://img.shields.io/badge/Paper-Computers_%26_Operations_Research-blue)](https://www.sciencedirect.com/science/article/pii/S0305054826001000?via%3Dihub)
 
-# RKO - Random-Key Optimizer
+This repository contains the official implementation and data for the paper **"Random-key optimizer and linearization for the quadratic multiple constraints variable-sized bin packing problem"**, accepted in *Computers & Operations Research* (2026).
 
-This is an implementation of the RKO to solve combinatorial optimization problems. The code was prepared for Unix and Windows systems. However, the openMP paradigm needs to be enabled.
+This work introduces **RKO-ACO**, a continuous-domain Ant Colony Optimization algorithm integrated into the Random-Key Optimizer framework, and a linearized mathematical model to solve the challenging QMC-VSBPP.
 
-This algorithm's C++ code has been designed to be easy to reuse. Users can only implement specific functions (read and decoder in Problem.h). 
+## 📌 Citation
 
-Here, we have the RKO version 2.0.1 code. RKO is constantly improving based on users’ feedback. 
+If you use this code or the mathematical models in your research, please cite our paper:
 
-![RKO_pipeline](https://github.com/user-attachments/assets/bb26650b-b5f0-4fc7-9cb1-55f5ca8b6132)
+```bibtex
+@article{SANTOS2026107482,
+  title = {Random-key optimizer and linearization for the quadratic multiple constraints variable-sized bin packing problem},
+  journal = {Computers & Operations Research},
+  volume = {192},
+  pages = {107482},
+  year = {2026},
+  issn = {0305-0548},
+  doi = {https://doi.org/10.1016/j.cor.2026.107482},
+  url = {https://www.sciencedirect.com/science/article/pii/S0305054826001000},
+  author = {Natalia Alves Santos and Marlon Jeske and Antônio Augusto Chaves},
+  keywords = {Bin packing problem, Random-key optimizer, Ant colony optimization, Metaheuristics, Mathematical programming}
+}
+```
 
+## 🏗️ Framework Lineage & Acknowledgements
 
-## References
+This repository is an increment built upon the **Random-Key Optimizer (RKO) Framework v2.0**. 
+* **Original Framework Repository:** [RKO-solver/RKO_Cpp_v2.0](https://github.com/RKO-solver/RKO_Cpp_v2.0)
+* **Base Framework Reference:** Chaves, A.A., et al. *A Random-Key Optimizer for Combinatorial Optimization*. ([paper](https://link.springer.com/article/10.1007/s10732-025-09568-z))
 
-When using this algorithm in academic studies, please refer to the following work:
+While the base RKO framework provides a robust architecture for combinatorial optimization, this repository specifically provides the custom **Continuous Ant Colony Optimization (ACO)** implementation, the adaptive Q-learning parameter control tailored for this context, and the problem-specific decoders for the **QMC-VSBPP**.
 
-[1] Chaves, A.A., Resende, M.G.C., Schuetz, M.J.A.,  Brubaker, J.K., Katzgraber, H.G., Arruda, E.F., Silva, R.M.A. 
-A Random-Key Optimizer for Combinatorial Optimization. This paper has been submitted to the Journal of Heuristics.
+## 🚀 Scope and Features
 
-Available here in technical report form: 
-https://doi.org/10.48550/arXiv.2411.04293
+This code extends the RKO to solve the **Quadratic Multiple Constraints Variable-Sized Bin Packing Problem (QMC-VSBPP)**, featuring:
+* Multiple capacity dimensions and heterogeneous bin types.
+* A linearized mathematical model enabling exact solvers (like Gurobi) to compute strong lower bounds.
+* **RKO-ACO**: Adaptive continuous-domain ACO enhanced with Q-learning parameter control and efficient local search.
 
-## Scope
+## 💻 Running the Algorithm
 
-This code has been designed to solve the Knapsack Problem (KP). To solve other problems, users only need to configure the Problem.h file.
+The algorithm is written in C++ (C++20) and requires the OpenMP paradigm to be enabled for parallel execution.
 
+1. **Enter the Program directory:** `cd Program`
+2. **Compile the code:** `make rebuild`
+   *Alternatively, compile via terminal:*
+   `g++ -std=c++20 -o runTest main.cpp -O3 -fopenmp`
+3. **Run the RKO-ACO:** `./runTest ../Instances/QMC-VSBPP/instance_name.txt T` 
+   *(Where `T` is the maximum running time in seconds).*
+   *In Windows:* `runTest.exe ../Instances/QMC-VSBPP/instance_name.txt T`
 
-## Running the algorithm
+*Note: You must ensure the folders `Instances/QMC-VSBPP` (containing the benchmark instances) and `Results` (where output files are written) exist in the root directory.*
 
-* Enter the Program directory: `cd Program`
-* Run the make command: `make rebuild`
-* Run the RKO: `./runTest ../Instances/KP/kp50.txt T`, where T is the maximum running time (in seconds)
-* In Windows: runTest.exe ../Instances/KP/kp50.txt T
-
-* Or compile via terminal: `g++ -std=c++20 -o runTest main.cpp -O3 -fopenmp`
-
-
-## Code structure
-
-The code structure is documented in [1] and organized in the following manner:
+## 📂 Code Structure
 
 * **SPECIFIC_CODE:**
-    * **Problem.h**: Contains data structure of the problem, the read data function, and the decoder.
-
+    * **Problem_QMC.h**: Contains the data structure for the QMC-VSBPP, the data reading functions, and the specific decoder.
 * **GENERAL_CODE:**
-    * **/MH**: Contains all of the metaheuristic (MH) algorithm's mechanisms.
-    * **/Main**: Contains the main function to start the algorithm and stores the shared variables.
-    * **Data.h**: Represents the data structures.
-    * **Output.h**: Stores the output functions, including the best solution found and statistical analysis of the MH.
+    * **/MH**: Contains the metaheuristic mechanisms, including the newly introduced ACO.
+    * **/Main**: Contains the main function and shared variables.
+    * **Data.h / Output.h**: Data structures and output handlers for statistical analysis.
 
-## File config_tests.conf is the configuration of the RKO test
+## ⚙️ Configuration (`config_tests.conf`)
 
-* Metaheuristics in the RKO, each line is executed in a separate thread 
-    * SA
-    * ILS
-    * VNS
-    * BRKGA
-    * BRKGA-CS
-    * PSO
-    * GA
-    * LNS
-    * GRASP
-    * IPR
-    * ACO
+The `config_tests.conf` file controls the execution parameters. Each metaheuristic runs in a separate thread. Available methods include SA, ILS, VNS, BRKGA, BRKGA-CS, PSO, GA, LNS, GRASP, IPR, and **ACO**.
 
-* defines the maximum number of runs
-    * MAXRUNS 1
-
-* defines the execution mode (0 for test mode or 1 for debug mode)
-    * debug 1
-
-* defines the parameter configuration mode (0 for offline tuning, 1 for online configuration using Q-Learning)
-    * control 1
-
-* local search strategy (1 for first improvement, 2 for best improvement)
-    * strategy 1
-
-* strategy to restart the search process (percentage of the maximum time at which the restart is triggered)
-    * restart 1
-
-* size of the elite pool solution
-    * sizePool 10
-
-Users need to create a folder named "Instances/ProblemName", where the instances must be; users also need to create a folder named "Results", where the results files are written.
-
-## File Parameters
-
-Users can choose two parameter settings: parameter tuning (option 0) and parameter control (option 1). 
- - For parameter tuning, users must inform the static configuration of each parameter in ParametersOffline.txt.
- - For parameter control, users must inform a set of possible values for each parameter in ParametersOnline.txt. We use the Q-Learning method to learn the best configuration for each metaheuristic during the search process.
-
-## OpenMP
-
-The code was implemented to run in parallel using the OpenMP directive. In this setup, #MH threads are required for each run. Each thread executes a different metaheuristic. The threads run independently, and information about the best solutions is shared through a solution pool.
+**Key configuration flags:**
+* `MAXRUNS`: Maximum number of runs.
+* `debug`: Execution mode (0 for test, 1 for debug).
+* `control`: Parameter configuration mode (0 for offline tuning via `ParametersOffline.txt`, 1 for online Q-Learning configuration via `ParametersOnline.txt`).
+* `strategy`: Local search strategy (1 for first improvement, 2 for best improvement).
+* `restart`: Percentage of max time at which restart triggers.
+* `sizePool`: Size of the elite solution pool.
