@@ -11,7 +11,7 @@ This work introduces **RKO-ACO**, a continuous-domain Ant Colony Optimization al
 If you use this code or the mathematical models in your research, please cite our paper:
 
 ```bibtex
-@article{SANTOS2026107482,
+@article{Santos_RKO_ACO,
   title = {Random-key optimizer and linearization for the quadratic multiple constraints variable-sized bin packing problem},
   journal = {Computers & Operations Research},
   volume = {192},
@@ -20,8 +20,7 @@ If you use this code or the mathematical models in your research, please cite ou
   issn = {0305-0548},
   doi = {https://doi.org/10.1016/j.cor.2026.107482},
   url = {https://www.sciencedirect.com/science/article/pii/S0305054826001000},
-  author = {Natalia Alves Santos and Marlon Jeske and Antônio Augusto Chaves},
-  keywords = {Bin packing problem, Random-key optimizer, Ant colony optimization, Metaheuristics, Mathematical programming}
+  author = {Natalia Alves Santos and Marlon Jeske and Antônio Augusto Chaves}
 }
 ```
 
@@ -63,9 +62,9 @@ The algorithm is written in C++ (C++20) and requires the OpenMP paradigm to be e
     * **/Main**: Contains the main function and shared variables.
     * **Data.h / Output.h**: Data structures and output handlers for statistical analysis.
 
-## ⚙️ Configuration (`config_tests.conf`)
+## ⚙️ Configuration
 
-The `config_tests.conf` file controls the execution parameters. Each metaheuristic runs in a separate thread. Available methods include SA, ILS, VNS, BRKGA, BRKGA-CS, PSO, GA, LNS, GRASP, IPR, and **ACO**.
+The `Program\config\config_tests.conf` file controls the execution parameters. Each metaheuristic runs in a separate thread. Available methods include SA, ILS, VNS, BRKGA, BRKGA-CS, PSO, GA, LNS, GRASP, IPR, and **ACO**.
 
 **Key configuration flags:**
 * `MAXRUNS`: Maximum number of runs.
