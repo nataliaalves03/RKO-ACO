@@ -62,6 +62,15 @@ The algorithm is written in C++ (C++20) and requires the OpenMP paradigm to be e
     * **/Main**: Contains the main function and shared variables.
     * **Data.h / Output.h**: Data structures and output handlers for statistical analysis.
 
+## 📦 Instance Sets
+
+Two instance sets are provided:
+
+- **`Instances/`** — the original benchmark instances from the literature, where item–item links define a **directed graph** (arcs `i→j` and `j→i` may carry different costs).
+- **`Instances_symmetric/`** — a derived set used to replicate the experiments reported in the paper. Each link is canonicalized to `itemNo1 < itemNo2` and duplicate pairs are collapsed to one entry, effectively treating the graph as **symmetric**.
+
+The results in the paper were produced using `Instances_symmetric/`. The `Instances/` set is provided for reference and represents the problem as defined in the original literature.
+
 ## ⚙️ Configuration
 
 The `Program\config\config_tests.conf` file controls the execution parameters. Each metaheuristic runs in a separate thread. Available methods include SA, ILS, VNS, BRKGA, BRKGA-CS, PSO, GA, LNS, GRASP, IPR, and **ACO**.
